@@ -5,20 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HyperOS Remastered</title>
     <style>
+        /* Color Variables for Theme Toggling */
+        :root {
+            --bg-color: #000000;
+            --text-main: #ffffff;
+            --text-sub: rgba(255, 255, 255, 0.6);
+            --nav-bg: rgba(255, 255, 255, 0.02);
+            --nav-border: rgba(255, 255, 255, 0.05);
+            --card-bg: rgba(255, 255, 255, 0.01);
+            --card-border: rgba(255, 255, 255, 0.04);
+            --accent-blue: #3b82f6;
+            --accent-hover: #2563eb;
+            --btn-sec-bg: rgba(255, 255, 255, 0.04);
+            --btn-sec-border: rgba(255, 255, 255, 0.08);
+            --btn-sec-hover: rgba(255, 255, 255, 0.08);
+            --tag-bg: rgba(59, 130, 246, 0.1);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f4f4f7;
+            --text-main: #111827;
+            --text-sub: #4b5563;
+            --nav-bg: rgba(0, 0, 0, 0.02);
+            --nav-border: rgba(0, 0, 0, 0.06);
+            --card-bg: #ffffff;
+            --card-border: rgba(0, 0, 0, 0.05);
+            --btn-sec-bg: rgba(0, 0, 0, 0.03);
+            --btn-sec-border: rgba(0, 0, 0, 0.08);
+            --btn-sec-hover: rgba(0, 0, 0, 0.06);
+            --tag-bg: rgba(59, 130, 246, 0.08);
+        }
+
         /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
-        /* Using a solid dark background blends your current black-background logo seamlessly.
-           When you swap to a transparent PNG later, this dark theme will still look incredible.
-        */
         body {
-            background-color: #000000;
-            color: #ffffff;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
             display: flex;
@@ -33,22 +62,25 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 40px;
+            padding: 16px 32px;
             margin-top: 20px;
             border-radius: 20px;
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--nav-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--nav-border);
         }
 
         .nav-brand {
             font-weight: 700;
             font-size: 1.2rem;
             letter-spacing: 0.5px;
-            background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
         }
 
         .nav-links {
@@ -58,18 +90,36 @@
         }
 
         .nav-links a {
-            color: rgba(255, 255, 255, 0.65);
+            color: var(--text-sub);
             text-decoration: none;
             font-size: 0.95rem;
             font-weight: 500;
-            transition: all 0.25s ease;
         }
 
         .nav-links a:hover {
-            color: #3b82f6; /* HyperOS Accent Blue */
+            color: var(--accent-blue);
         }
 
-        /* Main Screen Layout */
+        /* Theme Toggle Button Style */
+        .theme-toggle-btn {
+            background: var(--btn-sec-bg);
+            border: 1px solid var(--btn-sec-border);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .theme-toggle-btn:hover {
+            background: var(--btn-sec-hover);
+        }
+
+        /* Main Container Layout */
         main {
             width: 100%;
             max-width: 1200px;
@@ -80,7 +130,7 @@
             text-align: center;
         }
 
-        /* Hero / Logo Section */
+        /* Hero Layout */
         .hero-section {
             margin: 80px 0 50px 0;
             display: flex;
@@ -99,20 +149,18 @@
             width: 100%;
             height: auto;
             display: block;
-            /* Slight contrast boost makes the logo pop nicely against pure black */
-            filter: contrast(1.05); 
         }
 
         .hero-text {
             font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--text-sub);
             max-width: 650px;
             line-height: 1.6;
             margin-bottom: 35px;
             font-weight: 400;
         }
 
-        /* Main Call to Action Buttons */
+        /* Standard Buttons (Removed Glowing Box-Shadows) */
         .cta-buttons {
             display: flex;
             gap: 20px;
@@ -125,37 +173,32 @@
             font-weight: 600;
             border-radius: 14px;
             text-decoration: none;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
         }
 
         .btn-primary {
-            background: #3b82f6;
+            background: var(--accent-blue);
             color: #ffffff;
             border: none;
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
         }
 
         .btn-primary:hover {
-            background: #2563eb;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5);
+            background: var(--accent-hover);
+            transform: translateY(-1px);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.04);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
+            background: var(--btn-sec-bg);
+            color: var(--text-main);
+            border: 1px solid var(--btn-sec-border);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
+            background: var(--btn-sec-hover);
+            transform: translateY(-1px);
         }
 
-        /* Content Bento Grid */
+        /* Content Sections */
         .content-grid {
             display: grid;
             grid-template-columns: 1.6fr 1fr;
@@ -166,12 +209,10 @@
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 24px;
             padding: 35px;
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
         }
 
         .card h2 {
@@ -179,27 +220,27 @@
             margin-bottom: 20px;
             font-weight: 600;
             letter-spacing: -0.5px;
-            color: #ffffff;
-            border-left: 4px solid #3b82f6;
+            color: var(--text-main);
+            border-left: 4px solid var(--accent-blue);
             padding-left: 14px;
         }
 
         .card p {
-            color: rgba(255, 255, 255, 0.55);
+            color: var(--text-sub);
             line-height: 1.7;
             margin-bottom: 15px;
             font-size: 1rem;
         }
 
-        /* Changelog Section Styling */
+        /* Changelog Layout */
         .changelog-list {
             list-style: none;
         }
 
         .changelog-item {
             padding: 14px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            color: rgba(255, 255, 255, 0.65);
+            border-bottom: 1px solid var(--card-border);
+            color: var(--text-sub);
             font-size: 0.95rem;
         }
 
@@ -210,15 +251,15 @@
 
         .version-tag {
             font-weight: 700;
-            color: #3b82f6;
+            color: var(--accent-blue);
             margin-right: 12px;
-            background: rgba(59, 130, 246, 0.1);
+            background: var(--tag-bg);
             padding: 2px 8px;
             border-radius: 6px;
             font-size: 0.85rem;
         }
 
-        /* Footer Section */
+        /* Footer Element */
         footer {
             width: 100%;
             max-width: 1200px;
@@ -226,13 +267,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid var(--nav-border);
             margin-top: auto;
         }
 
         footer p {
             font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.4);
+            color: var(--text-sub);
         }
 
         .footer-links {
@@ -243,18 +284,32 @@
 
         .footer-links a {
             font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.4);
+            color: var(--text-sub);
             text-decoration: none;
-            transition: color 0.2s ease;
         }
 
         .footer-links a:hover {
-            color: #ffffff;
+            color: var(--text-main);
         }
 
-        /* Responsive Breakpoints */
+        /* Responsiveness settings */
         @media (max-width: 768px) {
-            nav, .content-grid, footer {
+            nav {
+                flex-direction: column;
+                gap: 15px;
+                padding: 20px;
+            }
+            .nav-right {
+                flex-direction: column;
+                gap: 15px;
+                width: 100%;
+            }
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
+            .content-grid, footer {
                 flex-direction: column;
                 grid-template-columns: 1fr;
                 gap: 25px;
@@ -262,10 +317,6 @@
             }
             .card h2 {
                 text-align: left;
-            }
-            .nav-links {
-                flex-direction: column;
-                gap: 15px;
             }
             .cta-buttons {
                 flex-direction: column;
@@ -280,12 +331,17 @@
 
     <nav>
         <div class="nav-brand">HyperOS Remastered</div>
-        <ul class="nav-links">
-            <li><a href="#features">Features</a></li>
-            <li><a href="#downloads">Downloads</a></li>
-            <li><a href="#guide">Install Guide</a></li>
-            <li><a href="#forum">Forum</a></li>
-        </ul>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#downloads">Downloads</a></li>
+                <li><a href="#guide">Install Guide</a></li>
+                <li><a href="#forum">Forum</a></li>
+            </ul>
+            <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle theme">
+                <span id="toggleText">Light Mode</span>
+            </button>
+        </div>
     </nav>
 
     <main>
@@ -335,5 +391,21 @@
         </ul>
     </footer>
 
+    <script>
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const toggleText = document.getElementById('toggleText');
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            
+            if (currentTheme === 'light') {
+                document.documentElement.removeAttribute('data-theme');
+                toggleText.textContent = 'Light Mode';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                toggleText.textContent = 'Dark Mode';
+            }
+        });
+    </script>
 </body>
 </html>
