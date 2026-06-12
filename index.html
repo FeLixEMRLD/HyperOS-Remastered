@@ -242,4 +242,208 @@
         .devices-view {
             width: 100%;
             max-width: 1200px;
-            padding: 6
+            padding: 60px 40px 120px 40px;
+            text-align: center;
+        }
+
+        .devices-view h2 {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 50px;
+            color: var(--text-main);
+        }
+
+        /* Devices Bento Flex Grid */
+        .device-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            width: 100%;
+        }
+
+        /* Blueprint Device Card Item Container */
+        .device-card {
+            background: var(--card-bg);
+            border: 2.5px solid var(--card-border);
+            border-radius: 32px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            min-height: 380px;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Hover bounce configuration */
+        .device-card:hover {
+            transform: translateY(-8px);
+        }
+
+        /* Upper Device Showcase Area */
+        .device-showcase {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .device-build-tag {
+            position: absolute;
+            top: 15px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            font-family: monospace;
+            color: var(--badge-text);
+            letter-spacing: -0.2px;
+        }
+
+        .device-img-placeholder {
+            width: auto;
+            height: 170px;
+            max-width: 100%;
+            object-fit: contain;
+            margin-top: 15px;
+            /* Once ready, clear out this dashed setup below when adding actual images */
+            border: 1px dashed rgba(128, 128, 128, 0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: rgba(128, 128, 128, 0.4);
+            padding: 20px;
+        }
+
+        /* Bottom Device Footer Title Block */
+        .device-meta {
+            border-top: 2.5px solid var(--card-divider);
+            padding: 22px 15px;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            line-height: 1.4;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .device-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .nav-links { font-size: 0.95rem; flex-wrap: wrap; justify-content: center; }
+            .action-container { flex-direction: column; gap: 15px; width: 100%; max-width: 280px; }
+            .btn { width: 100%; padding: 12px 0; }
+            .device-grid { grid-template-columns: 1fr; max-width: 320px; margin: 0 auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            <span class="logo-placeholder-text">[ Xiaomi HyperOS Remastered Logo ]</span>
+        </div>
+
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <span class="separator">|</span>
+                <li><a href="#">Features</a></li>
+                <span class="separator">|</span>
+                <li><a href="#devices">Devices</a></li>
+                <span class="separator">|</span>
+                <li><a href="#">Flash Guide</a></li>
+                <span class="separator">|</span>
+                <li><a href="#">Contribute</a></li>
+            </ul>
+
+            <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.72" x2="5.64" y2="18.3"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </button>
+        </nav>
+    </header>
+
+    <div class="content-sections">
+        
+        <section class="hero-view">
+            <h1>Elevate Your HyperOS Experience</h1>
+            <p class="hero-desc">
+                Experience HyperOS like never before. This Custom ROM modifies and provides vast features for your device such as high-end aesthetics, a debloated system, and absolutely zero System Ads.
+            </p>
+
+            <div class="action-container">
+                <button class="btn btn-get-started" onclick="event.preventDefault()">Get Started</button>
+                <button class="btn btn-changelogs" onclick="event.preventDefault()">Changelogs</button>
+            </div>
+        </section>
+
+        <section class="devices-view" id="devices">
+            <h2>Supported Devices</h2>
+            
+            <div class="device-grid">
+                <div class="device-card">
+                    <div class="device-showcase">
+                        <span class="device-build-tag">OS3.0.302_SWIFT</span>
+                        <div class="device-img-placeholder">[ Redmi Note 13 Pro Image ]</div>
+                    </div>
+                    <div class="device-meta">
+                        Redmi Note 13 Pro<br>4G / POCO M6 Pro 4G
+                    </div>
+                </div>
+
+                <div class="device-card">
+                    <div class="device-showcase">
+                        <span class="device-build-tag">OS3.0.302_RE/SWIFT</span>
+                        <div class="device-img-placeholder">[ Redmi Note 14 Pro Image ]</div>
+                    </div>
+                    <div class="device-meta">
+                        Redmi Note 14 pro<br>5G / POCO X7
+                    </div>
+                </div>
+
+                <div class="device-card">
+                    <div class="device-showcase">
+                        <span class="device-build-tag">OS3.0.302_STABLE</span>
+                        <div class="device-img-placeholder">[ Device PNG Placeholder ]</div>
+                    </div>
+                    <div class="device-meta">
+                        Coming Soon
+                    </div>
+                </div>
+
+                <div class="device-card">
+                    <div class="device-showcase">
+                        <span class="device-build-tag">OS3.0.302_STABLE</span>
+                        <div class="device-img-placeholder">[ Device PNG Placeholder ]</div>
+                    </div>
+                    <div class="device-meta">
+                        Coming Soon
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const themeToggleBtn = document.getElementById('themeToggle');
+        themeToggleBtn.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                document.documentElement.removeAttribute('data-theme');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+    </script>
+</body>
+</html>
