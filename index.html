@@ -27,7 +27,7 @@
             --card-bg: #f2f2f7;
             --badge-text: #8e8e93;
             --note-bg: rgba(0, 0, 0, 0.05);
-            --swift-accent: #000000; /* Shifted from blue to black */
+            --swift-accent: #000000;
         }
 
         [data-theme="dark"] {
@@ -51,7 +51,7 @@
             --card-bg: #1c1c1e;
             --badge-text: #7c7c80;
             --note-bg: rgba(255, 255, 255, 0.05);
-            --swift-accent: #ffffff; /* Shifted from blue to white */
+            --swift-accent: #ffffff;
         }
 
         /* Base Reset */
@@ -75,6 +75,7 @@
             flex-direction: column;
             align-items: center;
             position: relative;
+            overflow-x: hidden;
         }
 
         /* Seamless HyperOS Background Blur Panel */
@@ -107,6 +108,8 @@
             flex-direction: column;
             align-items: center;
             padding-top: 40px;
+            padding-left: 20px;
+            padding-right: 20px;
             z-index: 95;
         }
 
@@ -135,7 +138,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 15px 0;
+            padding: 15px 20px;
             background: transparent;
             z-index: 100;
         }
@@ -486,23 +489,49 @@
             color: var(--text-main);
         }
 
-        /* Responsive Breakpoints */
+        /* Enhanced Responsive Breakpoints Rules */
         @media (max-width: 1024px) {
             .device-grid { grid-template-columns: repeat(2, 1fr); }
             .swift-info-panel { grid-template-columns: 1fr; gap: 32px; text-align: center; }
         }
 
         @media (max-width: 768px) {
-            .logo-header { padding-top: 20px; }
+            .logo-header { padding-top: 25px; }
+            .logo-area { max-width: 280px; margin-bottom: 15px; }
             .blur-gradient-overlay { display: none; }
-            .nav-container { position: relative; padding: 10px 0; }
-            nav { flex-direction: column; gap: 10px; }
-            .nav-links { font-size: 0.95rem; flex-wrap: wrap; justify-content: center; }
-            .features-container { grid-template-columns: 1fr; gap: 40px; }
-            .action-container { flex-direction: column; gap: 15px; width: 100%; max-width: 280px; }
-            .btn { width: 100%; padding: 12px 0; }
-            .devices-view { scroll-margin-top: 20px; }
-            .device-grid { grid-template-columns: 1fr; max-width: 320px; margin: 0 auto; }
+            
+            /* Responsive Navigation Clean-ups */
+            .nav-container { position: relative; padding: 5px 15px; }
+            nav { flex-direction: column; gap: 15px; width: 100%; }
+            .nav-links { 
+                font-size: 0.9rem; 
+                flex-wrap: wrap; 
+                justify-content: center; 
+                gap: 8px 12px; 
+                width: 100%;
+            }
+            .nav-links li a { padding: 4px 6px; display: inline-block; }
+            .separator { display: none; } /* Drop the pipe character overlays entirely on mobile */
+            
+            /* Typography Scaling */
+            h1 { font-size: 2.1rem; line-height: 1.2; }
+            .hero-desc { font-size: 1rem; margin-bottom: 30px; }
+            .section-header h2 { font-size: 1.75rem; }
+            
+            /* Layout Collapse Settings */
+            .features-view { padding-top: 40px; }
+            .features-container { grid-template-columns: 1fr; gap: 32px; }
+            .swift-view { padding: 40px 24px; }
+            
+            /* Standard Full-width Flex Buttons */
+            .action-container { flex-direction: column; gap: 12px; width: 100%; max-width: 300px; }
+            .btn { width: 100%; padding: 14px 0; text-align: center; }
+            
+            /* Devices Grid Layout Reduction */
+            .devices-view { padding: 40px 20px 80px 20px; }
+            .devices-view h2 { margin-bottom: 35px; font-size: 1.75rem; }
+            .device-grid { grid-template-columns: 1fr; max-width: 320px; margin: 0 auto; gap: 20px; }
+            .device-card { min-height: 360px; }
         }
     </style>
 </head>
@@ -672,7 +701,6 @@
     </div>
 
     <script>
-        // Monitor scroll coordinates to check when the logo box clears the layout boundary
         window.addEventListener('scroll', () => {
             if (window.scrollY > 145) {
                 document.body.classList.add('is-scrolled');
@@ -681,22 +709,20 @@
             }
         });
 
-        // Theme Toggle Controller & Asset Switching Logic
         const themeToggleBtn = document.getElementById('themeToggle');
         const brandLogo = document.getElementById('brandLogo');
         const swiftLogo = document.getElementById('swiftLogo');
 
-        // Core initialization logic for dynamic theme configurations
         themeToggleBtn.addEventListener('click', () => {
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
             if (isDark) {
                 document.documentElement.removeAttribute('data-theme');
                 brandLogo.src = "Logo.png";
-                swiftLogo.src = "SWIFT.png"; // Switches to Light Mode Swift Logo
+                swiftLogo.src = "SWIFT.png";
             } else {
                 document.documentElement.setAttribute('data-theme', 'dark');
                 brandLogo.src = "logoDark.png";
-                swiftLogo.src = "SWIFTdark.png"; // Switches to Dark Mode Swift Logo
+                swiftLogo.src = "SWIFTdark.png";
             }
         });
     </script>
