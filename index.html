@@ -18,7 +18,7 @@
             --btn-changelogs-text: #ffffff;
             --icon-color: #000000;
             
-            /* Clean Matching Light Theme Blur */
+            /* Crisp Light Theme Translucent Blur */
             --blur-panel-bg: rgba(255, 255, 255, 0.7);
             
             /* Device Card Theme Variables */
@@ -40,7 +40,7 @@
             --btn-changelogs-text: #000000;
             --icon-color: #ffffff;
             
-            /* Clean Matching Dark Theme Blur */
+            /* Sleek Dark Theme Translucent Blur */
             --blur-panel-bg: rgba(10, 10, 12, 0.7);
             
             /* Dark Mode Device Card Alterations */
@@ -72,43 +72,42 @@
             position: relative;
         }
 
-        /* Seamless HyperOS Fade-In Background Blur Panel 
-           Stays fixed behind the navbar when scrolling to handle background items 
+        /* Seamless HyperOS Background Blur Panel 
+           Stays fixed directly underneath the sticky row to smoothly catch items passing by.
         */
         .blur-gradient-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 90px; 
+            height: 70px; 
             background: var(--blur-panel-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             pointer-events: none;
             z-index: 90;
-            -webkit-mask-image: linear-gradient(to bottom, black 45%, rgba(0, 0, 0, 0.7) 70%, rgba(0, 0, 0, 0));
-            mask-image: linear-gradient(to bottom, black 45%, rgba(0, 0, 0, 0.7) 70%, rgba(0, 0, 0, 0));
+            -webkit-mask-image: linear-gradient(to bottom, black 50%, rgba(0, 0, 0, 0.7) 75%, rgba(0, 0, 0, 0));
+            mask-image: linear-gradient(to bottom, black 50%, rgba(0, 0, 0, 0.7) 75%, rgba(0, 0, 0, 0));
             opacity: 0;
             transition: opacity 0.2s ease;
         }
 
-        /* Display the matching clear blur container only when scrolled */
+        /* Displays the matching clean blur backdrop layer only when scrolled */
         body.is-scrolled .blur-gradient-overlay {
             opacity: 1;
         }
 
-        /* Master Header Container */
-        header {
+        /* Logo Layout Container (Scrolls away comfortably) */
+        .logo-header {
             width: 100%;
             max-width: 1200px;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding-top: 40px;
-            z-index: 100;
+            z-index: 95;
         }
 
-        /* Logo Component - Scrolls away comfortably */
         .logo-area {
             width: 100%;
             max-width: 480px;
@@ -128,8 +127,8 @@
             letter-spacing: 1px;
         }
 
-        /* Unified Sticky Floating Navigation Row
-           Keeps everything aligned nicely together while locking smoothly to the top index view
+        /* Unified Floating Sticky Navigation Wrapper
+           Placed independently outside the logo container so it pins flawlessly to the viewport ceiling.
         */
         .nav-container {
             position: sticky;
@@ -287,7 +286,7 @@
         .devices-view {
             width: 100%;
             max-width: 1200px;
-            scroll-margin-top: 90px;
+            scroll-margin-top: 70px; /* Perfectly padded alignment matching header blur line boundary */
             padding: 60px 40px 120px 40px;
             text-align: center;
         }
@@ -299,7 +298,7 @@
             color: var(--text-main);
         }
 
-        /* Devices Bento Flex Grid */
+        /* Devices Bento Grid */
         .device-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -307,7 +306,7 @@
             width: 100%;
         }
 
-        /* Blueprint Device Card Item Container */
+        /* Device Card Layout Container */
         .device-card {
             background: var(--card-bg);
             border: 2.5px solid var(--card-border);
@@ -381,7 +380,7 @@
         }
 
         @media (max-width: 768px) {
-            header { padding-top: 20px; }
+            .logo-header { padding-top: 20px; }
             .blur-gradient-overlay { display: none; }
             .nav-container { position: relative; padding: 10px 0; }
             nav { flex-direction: column; gap: 10px; }
@@ -397,32 +396,32 @@
 
     <div class="blur-gradient-overlay"></div>
 
-    <header>
+    <div class="logo-header">
         <div class="logo-area">
             <span class="logo-placeholder-text">[ Xiaomi HyperOS Remastered Logo ]</span>
         </div>
+    </div>
 
-        <div class="nav-container">
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="#">Home</a></li>
-                    <span class="separator">|</span>
-                    <li><a href="#">Features</a></li>
-                    <span class="separator">|</span>
-                    <li><a href="#devices">Devices</a></li>
-                    <span class="separator">|</span>
-                    <li><a href="#">Flash Guide</a></li>
-                    <span class="separator">|</span>
-                    <li><a href="#">Contribute</a></li>
-                </ul>
+    <div class="nav-container">
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <span class="separator">|</span>
+                <li><a href="#">Features</a></li>
+                <span class="separator">|</span>
+                <li><a href="#devices">Devices</a></li>
+                <span class="separator">|</span>
+                <li><a href="#">Flash Guide</a></li>
+                <span class="separator">|</span>
+                <li><a href="#">Contribute</a></li>
+            </ul>
 
-                <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
-                    <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                    <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.72" x2="5.64" y2="18.3"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                </button>
-            </nav>
-        </div>
-    </header>
+            <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.72" x2="5.64" y2="18.3"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </button>
+        </nav>
+    </div>
 
     <div class="content-sections">
         
@@ -487,9 +486,9 @@
     </div>
 
     <script>
-        // Check scroll height position to dynamically trigger background glass blur effect
+        // Monitor scroll coordinates to check when the logo box clears the layout boundary
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 140) {
+            if (window.scrollY > 145) {
                 document.body.classList.add('is-scrolled');
             } else {
                 document.body.classList.remove('is-scrolled');
