@@ -17,6 +17,12 @@
             --btn-changelogs-bg: #000000;
             --btn-changelogs-text: #ffffff;
             --icon-color: #000000;
+            
+            /* Device Card Theme Variables */
+            --card-border: #333333;
+            --card-divider: #333333;
+            --card-bg: transparent;
+            --badge-text: #555555;
         }
 
         [data-theme="dark"] {
@@ -30,6 +36,11 @@
             --btn-changelogs-bg: #ffffff;
             --btn-changelogs-text: #000000;
             --icon-color: #ffffff;
+            
+            /* Dark Mode Device Card Alterations */
+            --card-border: #444446;
+            --card-divider: #444446;
+            --badge-text: #a1a1aa;
         }
 
         /* Base Reset */
@@ -41,30 +52,18 @@
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
+        html {
+            scroll-behavior: smooth; /* Enables smooth jumping when clicking links */
+        }
+
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
             min-height: 100vh;
-            overflow-x: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
-        }
-
-        /* Background Graphics Placeholder Wrapper */
-        .bg-graphics-placeholder {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            /* You can inject your layout graphics here later as a background image:
-               background: url('your-graphics.png') no-repeat bottom left;
-               background-size: contain;
-            */
         }
 
         /* Top Bar Layout */
@@ -81,14 +80,11 @@
         .logo-area {
             width: 100%;
             max-width: 480px;
-            min-height: 80px; /* Reserves layout space for the logo image */
+            min-height: 80px;
             display: flex;
             justify-content: center;
             align-items: center;
             margin-bottom: 25px;
-            /* When ready, replace this border-box with your actual transparent image source:
-               border: none; 
-            */
             border: 2px dashed rgba(128, 128, 128, 0.2);
             border-radius: 8px;
         }
@@ -167,24 +163,31 @@
             transform: scale(1.1);
         }
 
-        /* Hide specific icon states directly based on target configurations */
         .sun-icon { display: none; }
         .moon-icon { display: block; }
 
         [data-theme="dark"] .sun-icon { display: block; }
         [data-theme="dark"] .moon-icon { display: none; }
 
-        /* Main Headline Screen Context */
-        main {
+        /* Main Section Container Scroll Wrapper */
+        .content-sections {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Hero Landing Screen Section */
+        .hero-view {
             width: 100%;
             max-width: 800px;
-            margin-top: 70px;
-            padding: 0 24px;
+            min-height: calc(100vh - 250px);
+            padding: 80px 24px 100px 24px;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
-            z-index: 10;
+            justify-content: center;
         }
 
         h1 {
@@ -203,7 +206,6 @@
             margin-bottom: 40px;
         }
 
-        /* Action Buttons with Non-functional Scale Effects */
         .action-container {
             display: flex;
             gap: 25px;
@@ -231,72 +233,13 @@
             color: var(--btn-changelogs-text);
         }
 
-        /* Non-functional hovering bounce definitions */
         .btn:hover {
             transform: scale(1.04);
             opacity: 0.95;
         }
 
-        /* Responsive Breakpoints */
-        @media (max-width: 768px) {
-            h1 { font-size: 2.2rem; }
-            .nav-links { font-size: 0.95rem; flex-wrap: wrap; justify-content: center; }
-            .action-container { flex-direction: column; gap: 15px; width: 100%; max-width: 280px; }
-            .btn { width: 100%; padding: 12px 0; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="bg-graphics-placeholder"></div>
-
-    <header>
-        <div class="logo-area">
-            <span class="logo-placeholder-text">[ Xiaomi HyperOS Remastered Logo ]</span>
-        </div>
-
-        <nav>
-            <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <span class="separator">|</span>
-                <li><a href="#">Features</a></li>
-                <span class="separator">|</span>
-                <li><a href="#">Devices</a></li>
-                <span class="separator">|</span>
-                <li><a href="#">Flash Guide</a></li>
-                <span class="separator">|</span>
-                <li><a href="#">Contribute</a></li>
-            </ul>
-
-            <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
-                <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.72" x2="5.64" y2="18.3"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-            </button>
-        </nav>
-    </header>
-
-    <main>
-        <h1>Elevate Your HyperOS Experience</h1>
-        <p class="hero-desc">
-            Experience HyperOS like never before. This Custom ROM modifies and provides vast features for your device such as high-end aesthetics, a debloated system, and absolutely zero System Ads.
-        </p>
-
-        <div class="action-container">
-            <button class="btn btn-get-started" onclick="event.preventDefault()">Get Started</button>
-            <button class="btn btn-changelogs" onclick="event.preventDefault()">Changelogs</button>
-        </div>
-    </main>
-
-    <script>
-        const themeToggleBtn = document.getElementById('themeToggle');
-        themeToggleBtn.addEventListener('click', () => {
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            if (isDark) {
-                document.documentElement.removeAttribute('data-theme');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
-        });
-    </script>
-</body>
-</html>
+        /* Devices List Section View */
+        .devices-view {
+            width: 100%;
+            max-width: 1200px;
+            padding: 6
