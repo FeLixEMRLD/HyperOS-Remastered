@@ -27,6 +27,7 @@
             --card-bg: #f2f2f7;
             --badge-text: #8e8e93;
             --note-bg: rgba(0, 0, 0, 0.05);
+            --swift-accent: #0071e3;
         }
 
         [data-theme="dark"] {
@@ -50,6 +51,7 @@
             --card-bg: #1c1c1e;
             --badge-text: #7c7c80;
             --note-bg: rgba(255, 255, 255, 0.05);
+            --swift-accent: #2997ff;
         }
 
         /* Base Reset */
@@ -283,7 +285,7 @@
             width: 100%;
             max-width: 1100px;
             scroll-margin-top: 70px;
-            padding: 80px 24px;
+            padding: 80px 24px 40px 24px;
         }
 
         .section-header {
@@ -354,6 +356,103 @@
             line-height: 1.4;
             color: var(--text-sub);
             border-left: 3px solid #ff9500;
+        }
+
+        /* Swift Edition Architectural Block */
+        .swift-view {
+            width: 100%;
+            max-width: 1100px;
+            scroll-margin-top: 70px;
+            padding: 60px 24px 80px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 48px;
+        }
+
+        .swift-info-panel {
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .swift-info-panel h2 {
+            font-size: 2.2rem;
+            font-weight: 400;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .swift-info-panel h2 span {
+            color: var(--swift-accent);
+            font-weight: 600;
+        }
+
+        .swift-info-body {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: var(--text-sub);
+        }
+
+        /* Swift Modular Changelog Layout */
+        .swift-changelog-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            padding: 40px;
+        }
+
+        .swift-changelog-box h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--swift-accent);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .changelog-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .timeline-node {
+            display: flex;
+            gap: 20px;
+            position: relative;
+        }
+
+        .timeline-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .indicator-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--swift-accent);
+            margin-top: 6px;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-content h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .timeline-content p {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: var(--text-sub);
         }
 
         /* Devices List Section View */
@@ -451,6 +550,7 @@
         /* Responsive Breakpoints */
         @media (max-width: 1024px) {
             .device-grid { grid-template-columns: repeat(2, 1fr); }
+            .swift-info-panel { grid-template-columns: 1fr; gap: 16px; }
         }
 
         @media (max-width: 768px) {
@@ -460,6 +560,7 @@
             nav { flex-direction: column; gap: 10px; }
             .nav-links { font-size: 0.95rem; flex-wrap: wrap; justify-content: center; }
             .features-container { grid-template-columns: 1fr; gap: 40px; }
+            .swift-changelog-box { padding: 24px; }
             .action-container { flex-direction: column; gap: 15px; width: 100%; max-width: 280px; }
             .btn { width: 100%; padding: 12px 0; }
             .devices-view { scroll-margin-top: 20px; }
@@ -483,6 +584,8 @@
                 <li><a href="#">Home</a></li>
                 <span class="separator">|</span>
                 <li><a href="#features">Features</a></li>
+                <span class="separator">|</span>
+                <li><a href="#swift">Swift</a></li>
                 <span class="separator">|</span>
                 <li><a href="#devices">Devices</a></li>
                 <span class="separator">|</span>
@@ -566,6 +669,42 @@
                     <div class="bento-card">
                         <div class="feature-title">Dynamic Refresh Rates</div>
                         <div class="feature-desc">Implemented a 90Hz screen refresh rate option, giving users the flexibility to switch seamlessly between 120Hz, 90Hz, and 60Hz.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="swift-view" id="swift">
+            <div class="swift-info-panel">
+                <h2>About<br><span>RE SWIFT</span></h2>
+                <div class="swift-info-body">
+                    Remastered is the pure, base HyperOS REMASTERED, without any compromises. Remastered SWIFT however, disables Advanced textures and replaces Live blur with Static, Lite blur for efficiency and less lag. It also replaces the Remastered launcher with our internal, Custom Lightweight version for stability.
+                </div>
+            </div>
+
+            <div class="swift-changelog-box">
+                <h3>Visuals Changelog</h3>
+                <div class="changelog-timeline">
+                    <div class="timeline-node">
+                        <div class="timeline-indicator"><div class="indicator-dot"></div></div>
+                        <div class="timeline-content">
+                            <h4>Texture Refactoring</h4>
+                            <p>Removed Advanced textures to increase performance and reduce lag.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-node">
+                        <div class="timeline-indicator"><div class="indicator-dot"></div></div>
+                        <div class="timeline-content">
+                            <h4>Sleek Blur Integration</h4>
+                            <p>Replaced the live control center blur with a sleek, clean lite blur that doesn't eat up much performance.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-node">
+                        <div class="timeline-indicator"><div class="indicator-dot"></div></div>
+                        <div class="timeline-content">
+                            <h4>System Optimization</h4>
+                            <p>Simplified the animations of the control center, and replaced the System launcher with a more lightweight, internal Launcher to reduce stutters.</p>
+                        </div>
                     </div>
                 </div>
             </div>
