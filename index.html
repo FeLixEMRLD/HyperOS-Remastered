@@ -3,785 +3,285 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HyperOS Remastered</title>
+    <title>HyperOS Remastered - SWIFT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* Color System & CSS Variables */
+        /* --- Root Variables (Color Scheme shifted from Blue to Black/Grays) --- */
         :root {
             --bg-color: #ffffff;
-            --text-main: #000000;
-            --text-sub: #444446;
-            --nav-links-color: #000000;
-            --btn-get-started-bg: transparent;
-            --btn-get-started-border: #000000;
-            --btn-get-started-text: #000000;
-            --btn-changelogs-bg: #000000;
-            --btn-changelogs-text: #ffffff;
-            --icon-color: #000000;
-            
-            /* Crisp Light Theme Translucent Blur */
-            --blur-panel-bg: rgba(255, 255, 255, 0.7);
-            
-            /* Bento & Card Theme Variables */
-            --card-border: #e5e5ea;
-            --card-divider: #e5e5ea;
-            --card-bg: #f2f2f7;
-            --badge-text: #8e8e93;
-            --note-bg: rgba(0, 0, 0, 0.05);
-            --swift-accent: #0071e3;
+            --text-color: #111111;
+            --text-muted: #555555;
+            --accent-color: #000000;
+            --navbar-bg: rgba(255, 255, 255, 0.8);
+            --border-color: #e5e5e5;
         }
 
-        [data-theme="dark"] {
-            --bg-color: #0a0a0c;
-            --text-main: #ffffff;
-            --text-sub: #a1a1aa;
-            --nav-links-color: #ffffff;
-            --btn-get-started-bg: transparent;
-            --btn-get-started-border: #ffffff;
-            --btn-get-started-text: #ffffff;
-            --btn-changelogs-bg: #ffffff;
-            --btn-changelogs-text: #000000;
-            --icon-color: #ffffff;
-            
-            /* Sleek Dark Theme Translucent Blur */
-            --blur-panel-bg: rgba(10, 10, 12, 0.7);
-            
-            /* Dark Mode Bento Card Alterations */
-            --card-border: #2c2c2e;
-            --card-divider: #2c2c2e;
-            --card-bg: #1c1c1e;
-            --badge-text: #7c7c80;
-            --note-bg: rgba(255, 255, 255, 0.05);
-            --swift-accent: #2997ff;
+        /* Dark Mode variables triggered by class on body */
+        body.dark-mode {
+            --bg-color: #0a0a0a;
+            --text-color: #f5f5f5;
+            --text-muted: #aaaaaa;
+            --accent-color: #ffffff;
+            --navbar-bg: rgba(10, 10, 10, 0.8);
+            --border-color: #222222;
         }
 
-        /* Base Reset */
+        /* --- Global Reset & Base Typography --- */
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        }
-
-        html {
-            scroll-behavior: smooth;
         }
 
         body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.6;
         }
 
-        /* Seamless HyperOS Background Blur Panel */
-        .blur-gradient-overlay {
+        /* --- Navigation Bar --- */
+        header {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 70px; 
-            background: var(--blur-panel-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            pointer-events: none;
-            z-index: 90;
-            -webkit-mask-image: linear-gradient(to bottom, black 50%, rgba(0, 0, 0, 0.7) 75%, rgba(0, 0, 0, 0));
-            mask-image: linear-gradient(to bottom, black 50%, rgba(0, 0, 0, 0.7) 75%, rgba(0, 0, 0, 0));
-            opacity: 0;
-            transition: opacity 0.2s ease;
+            right: 0;
+            background: var(--navbar-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
         }
 
-        body.is-scrolled .blur-gradient-overlay {
-            opacity: 1;
-        }
-
-        /* Logo Layout Container */
-        .logo-header {
-            width: 100%;
-            max-width: 1200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 40px;
-            z-index: 95;
-        }
-
-        .logo-area {
-            width: 100%;
-            max-width: 480px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        .logo-area img {
-            width: 100%;
-            height: auto;
-            max-height: 90px;
-            object-fit: contain;
-            display: block;
-        }
-
-        /* Independent Ceiling-Sticky Nav Row Block */
         .nav-container {
-            position: sticky;
-            top: 0;
-            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
-            background: transparent;
-            z-index: 100;
+            padding: 18px 24px;
         }
 
-        nav {
+        .nav-menu {
             display: flex;
             align-items: center;
-            gap: 25px;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
+            gap: 32px;
             list-style: none;
-            font-size: 1.15rem;
-            font-weight: 400;
-            letter-spacing: 0.5px;
         }
 
-        .nav-links li {
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--nav-links-color);
+        .nav-menu a {
             text-decoration: none;
-            text-transform: uppercase;
-            padding: 0 10px;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 0.95rem;
             transition: opacity 0.2s ease;
         }
 
-        .nav-links a:hover {
-            opacity: 0.6;
+        .nav-menu a:hover {
+            opacity: 0.7;
         }
 
-        .separator {
-            color: rgba(128, 128, 128, 0.4);
-            font-weight: 300;
-            user-select: none;
-        }
-
-        /* Theme Toggle Icon Button Settings */
-        .theme-toggle-btn {
-            background: transparent;
+        /* Dark Mode Toggle Button */
+        .theme-toggle {
+            background: none;
             border: none;
             cursor: pointer;
+            color: var(--text-color);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 5px;
-            color: var(--icon-color);
+            padding: 4px;
         }
 
-        .theme-toggle-btn svg {
-            width: 24px;
-            height: 24px;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            transition: transform 0.3s ease;
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
         }
 
-        .theme-toggle-btn:hover svg {
-            transform: scale(1.1);
-        }
-
-        .sun-icon { display: none; }
-        .moon-icon { display: block; }
-
-        [data-theme="dark"] .sun-icon { display: block; }
-        [data-theme="dark"] .moon-icon { display: none; }
-
-        /* Main Scroll Sections Container */
-        .content-sections {
-            width: 100%;
+        /* --- Main SWIFT Feature Layout --- */
+        main {
+            padding-top: 120px; /* Offset for fixed navbar */
+            min-height: calc(100vh - 60px);
             display: flex;
-            flex-direction: column;
             align-items: center;
         }
 
-        /* Hero Landing Screen Section */
-        .hero-view {
+        .swift-section {
             width: 100%;
-            max-width: 800px;
-            min-height: calc(100vh - 240px);
-            padding: 40px 24px 80px 24px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            padding: 40px 24px;
         }
 
-        h1 {
-            font-size: 3rem;
-            font-weight: 400;
-            letter-spacing: -0.5px;
-            margin-bottom: 20px;
-            color: var(--text-main);
-        }
-
-        .hero-desc {
-            font-size: 1.2rem;
-            line-height: 1.5;
-            color: var(--text-sub);
-            max-width: 700px;
-            margin-bottom: 40px;
-        }
-
-        .action-container {
-            display: flex;
-            gap: 25px;
-        }
-
-        .btn {
-            font-size: 1.1rem;
-            font-weight: 400;
-            padding: 12px 48px;
-            border-radius: 30px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: transform 0.2s ease, opacity 0.2s ease;
-        }
-
-        .btn-get-started {
-            background-color: var(--btn-get-started-bg);
-            border: 2.5px solid var(--btn-get-started-border);
-            color: var(--btn-get-started-text);
-        }
-
-        .btn-changelogs {
-            background-color: var(--btn-changelogs-bg);
-            border: 2.5px solid var(--btn-changelogs-bg);
-            color: var(--btn-changelogs-text);
-        }
-
-        .btn:hover {
-            transform: scale(1.04);
-            opacity: 0.95;
-        }
-
-        /* Features Section View */
-        .features-view {
-            width: 100%;
+        .swift-container {
             max-width: 1100px;
-            scroll-margin-top: 70px;
-            padding: 80px 24px 40px 24px;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .section-header h2 {
-            font-size: 2.2rem;
-            font-weight: 400;
-            color: var(--text-main);
-            letter-spacing: -0.5px;
-        }
-
-        /* Features Columns Layout */
-        .features-container {
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 32px;
-            width: 100%;
-        }
-
-        .feature-group-column {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        .feature-group-column h3 {
-            font-size: 1.4rem;
-            font-weight: 500;
-            color: var(--text-main);
-            padding-left: 8px;
-            border-left: 3.5px solid var(--text-main);
-            margin-bottom: 4px;
-        }
-
-        /* Bento Architecture Feature Cards */
-        .bento-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .bento-card .feature-title {
-            font-size: 1.15rem;
-            font-weight: 600;
-            color: var(--text-main);
-        }
-
-        .bento-card .feature-desc {
-            font-size: 1rem;
-            line-height: 1.45;
-            color: var(--text-sub);
-        }
-
-        /* Highlight Frame for Gaussian Engine Performance Flag */
-        .performance-note {
-            margin-top: 8px;
-            padding: 12px 16px;
-            background-color: var(--note-bg);
-            border-radius: 14px;
-            font-size: 0.88rem;
-            line-height: 1.4;
-            color: var(--text-sub);
-            border-left: 3px solid #ff9500;
-        }
-
-        /* Swift Edition Architectural Block */
-        .swift-view {
-            width: 100%;
-            max-width: 1100px;
-            scroll-margin-top: 70px;
-            padding: 60px 24px 80px 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 48px;
-        }
-
-        .swift-info-panel {
-            display: grid;
-            grid-template-columns: 0.8fr 1.2fr;
-            gap: 40px;
-            align-items: start;
-        }
-
-        .swift-info-panel h2 {
-            font-size: 2.2rem;
-            font-weight: 400;
-            color: var(--text-main);
-            letter-spacing: -0.5px;
-            line-height: 1.2;
-        }
-
-        .swift-info-panel h2 span {
-            color: var(--swift-accent);
-            font-weight: 600;
-        }
-
-        .swift-info-body {
-            font-size: 1.15rem;
-            line-height: 1.6;
-            color: var(--text-sub);
-        }
-
-        /* Swift Modular Changelog Layout */
-        .swift-changelog-box {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 28px;
-            padding: 40px;
-        }
-
-        .swift-changelog-box h3 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            color: var(--swift-accent);
-            margin-bottom: 30px;
-            text-transform: uppercase;
-        }
-
-        .changelog-timeline {
-            display: flex;
-            flex-direction: column;
-            gap: 28px;
-        }
-
-        .timeline-node {
-            display: flex;
-            gap: 20px;
-            position: relative;
-        }
-
-        .timeline-indicator {
-            display: flex;
-            flex-direction: column;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 64px;
             align-items: center;
         }
 
-        .indicator-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: var(--swift-accent);
-            margin-top: 6px;
-        }
-
-        .timeline-content {
-            flex: 1;
-        }
-
-        .timeline-content h4 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 4px;
-        }
-
-        .timeline-content p {
-            font-size: 1rem;
-            line-height: 1.5;
-            color: var(--text-sub);
-        }
-
-        /* Devices List Section View */
-        .devices-view {
-            width: 100%;
-            max-width: 1200px;
-            scroll-margin-top: 70px;
-            padding: 60px 40px 120px 40px;
-            text-align: center;
-        }
-
-        .devices-view h2 {
-            font-size: 2rem;
-            font-weight: 400;
-            margin-bottom: 50px;
-            color: var(--text-main);
-        }
-
-        /* Devices Bento Grid */
-        .device-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            width: 100%;
-        }
-
-        /* Device Card Layout Container */
-        .device-card {
-            background: transparent;
-            border: 2.5px solid var(--card-border);
-            border-radius: 32px;
+        /* Logo Configuration */
+        .swift-logo-col {
             display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            position: relative;
-            min-height: 380px;
-            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .device-card:hover {
-            transform: translateY(-8px);
-        }
-
-        /* Upper Device Showcase Area */
-        .device-showcase {
-            flex: 1;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            position: relative;
+            align-items: center;
+            width: 100%;
         }
 
-        .device-build-tag {
-            position: absolute;
-            top: 15px;
-            font-size: 0.72rem;
-            font-weight: 600;
-            font-family: monospace;
-            color: var(--badge-text);
-            letter-spacing: -0.2px;
-        }
-
-        .device-img-placeholder {
-            width: auto;
-            height: 170px;
+        .swift-logo {
             max-width: 100%;
+            height: auto;
+            display: block;
             object-fit: contain;
-            margin-top: 15px;
-            border: 1px dashed rgba(128, 128, 128, 0.15);
-            border-radius: 12px;
+        }
+
+        /* Dynamic Asset Swapping without layout shift */
+        body.dark-mode .light-mode-only {
+            display: none !important;
+        }
+
+        body:not(.dark-mode) .dark-mode-only {
+            display: none !important;
+        }
+
+        /* Typography & List Layout */
+        .swift-description {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin-bottom: 40px;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .swift-features-list {
+            list-style: none;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            color: rgba(128, 128, 128, 0.4);
-            padding: 20px;
+            flex-direction: column;
+            gap: 32px;
         }
 
-        /* Bottom Device Footer Title Block */
-        .device-meta {
-            border-top: 2.5px solid var(--card-divider);
-            padding: 22px 15px;
-            min-height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            line-height: 1.4;
-            font-weight: 500;
-            color: var(--text-main);
+        .swift-features-list li {
+            position: relative;
         }
 
-        /* Responsive Breakpoints */
-        @media (max-width: 1024px) {
-            .device-grid { grid-template-columns: repeat(2, 1fr); }
-            .swift-info-panel { grid-template-columns: 1fr; gap: 16px; }
+        .feature-title {
+            display: block;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 6px;
+            letter-spacing: -0.01em;
         }
 
-        @media (max-width: 768px) {
-            .logo-header { padding-top: 20px; }
-            .blur-gradient-overlay { display: none; }
-            .nav-container { position: relative; padding: 10px 0; }
-            nav { flex-direction: column; gap: 10px; }
-            .nav-links { font-size: 0.95rem; flex-wrap: wrap; justify-content: center; }
-            .features-container { grid-template-columns: 1fr; gap: 40px; }
-            .swift-changelog-box { padding: 24px; }
-            .action-container { flex-direction: column; gap: 15px; width: 100%; max-width: 280px; }
-            .btn { width: 100%; padding: 12px 0; }
-            .devices-view { scroll-margin-top: 20px; }
-            .device-grid { grid-template-columns: 1fr; max-width: 320px; margin: 0 auto; }
+        .feature-desc {
+            display: block;
+            font-size: 0.98rem;
+            color: var(--text-muted);
+        }
+
+        /* --- Responsive Design Breakdown --- */
+        @media (max-width: 868px) {
+            header {
+                padding: 4px 0;
+            }
+            .nav-container {
+                padding: 14px 20px;
+            }
+            .nav-menu {
+                gap: 20px;
+            }
+            main {
+                padding-top: 100px;
+            }
+            .swift-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: left;
+            }
+            .swift-logo-col {
+                max-width: 280px;
+                margin: 0 auto;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="blur-gradient-overlay"></div>
-
-    <div class="logo-header">
-        <div class="logo-area">
-            <img src="Logo.png" id="brandLogo" alt="Xiaomi HyperOS Remastered Logo">
-        </div>
-    </div>
-
-    <div class="nav-container">
-        <nav>
-            <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <span class="separator">|</span>
-                <li><a href="#features">Features</a></li>
-                <span class="separator">|</span>
-                <li><a href="#swift">Swift</a></li>
-                <span class="separator">|</span>
-                <li><a href="#devices">Devices</a></li>
-                <span class="separator">|</span>
-                <li><a href="#">Flash Guide</a></li>
-                <span class="separator">|</span>
-                <li><a href="#">Contribute</a></li>
-            </ul>
-
-            <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
-                <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.72" x2="5.64" y2="18.3"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-            </button>
-        </nav>
-    </div>
-
-    <div class="content-sections">
-        
-        <section class="hero-view">
-            <h1>Elevate Your HyperOS Experience</h1>
-            <p class="hero-desc">
-                Experience HyperOS like never before. This Custom ROM modifies and provides vast features for your device such as high-end aesthetics, a debloated system, and absolutely zero System Ads.
-            </p>
-
-            <div class="action-container">
-                <a href="#features" class="btn btn-get-started" style="display: inline-block; text-align: center; line-height: 1.2;">Get Started</a>
-                <button class="btn btn-changelogs" onclick="event.preventDefault()">Changelogs</button>
-            </div>
-        </section>
-
-        <section class="features-view" id="features">
-            <div class="section-header">
-                <h2>ROM Engineering & Capabilities</h2>
-            </div>
-
-            <div class="features-container">
-                <div class="feature-group-column">
-                    <h3>Enhanced Visuals</h3>
-                    
-                    <div class="bento-card">
-                        <div class="feature-title">Advanced Textures</div>
-                        <div class="feature-desc">Implemented a system-wide "Gaussian" blur to UI elements.</div>
-                        <div class="performance-note">
-                            <strong>Note:</strong> The system may experience slight lag when handling advanced textures; utilize this feature wisely for optimal performance.
-                        </div>
-                    </div>
-
-                    <div class="bento-card">
-                        <div class="feature-title">Elevated Lockscreen Styles</div>
-                        <div class="feature-desc">Added new "People" and "Animals" lockscreen designs to enhance the user experience.</div>
-                    </div>
-
-                    <div class="bento-card">
-                        <div class="feature-title">High-End Animations</div>
-                        <div class="feature-desc">Integrated premium system animations, including wallpaper zoom for both the native launcher and the Always-On Display (AOD), providing extensive home screen customization options.</div>
-                    </div>
-                </div>
-
-                <div class="feature-group-column">
-                    <h3>Overall Features</h3>
-
-                    <div class="bento-card">
-                        <div class="feature-title">System Integrity & Flexibility</div>
-                        <div class="feature-desc">Upgraded system integrity to "Strong" and integrated Kaorios to maximize operational flexibility.</div>
-                    </div>
-
-                    <div class="bento-card">
-                        <div class="feature-title">Disabled Signature Verification</div>
-                        <div class="feature-desc">Removed system-wide signature verification, enabling the unrestricted installation of modified system applications.</div>
-                    </div>
-
-                    <div class="bento-card">
-                        <div class="feature-title">Disabled Secure Flag</div>
-                        <div class="feature-desc">Bypassed the secure flag constraint, allowing users to take screenshots within any application.</div>
-                    </div>
-
-                    <div class="bento-card">
-                        <div class="feature-title">Camera Enhancements</div>
-                        <div class="feature-desc">Added the "Live Photo" feature directly inside the native camera application.</div>
-                    </div>
-
-                    <div class="bento-card">
-                        <div class="feature-title">Dynamic Refresh Rates</div>
-                        <div class="feature-desc">Implemented a 90Hz screen refresh rate option, giving users the flexibility to switch seamlessly between 120Hz, 90Hz, and 60Hz.</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="swift-view" id="swift">
-            <div class="swift-info-panel">
-                <h2>About<br><span>RE SWIFT</span></h2>
-                <div class="swift-info-body">
-                    Remastered is the pure, base HyperOS REMASTERED, without any compromises. Remastered SWIFT however, disables Advanced textures and replaces Live blur with Static, Lite blur for efficiency and less lag. It also replaces the Remastered launcher with our internal, Custom Lightweight version for stability.
-                </div>
-            </div>
-
-            <div class="swift-changelog-box">
-                <h3>Visuals Changelog</h3>
-                <div class="changelog-timeline">
-                    <div class="timeline-node">
-                        <div class="timeline-indicator"><div class="indicator-dot"></div></div>
-                        <div class="timeline-content">
-                            <h4>Texture Refactoring</h4>
-                            <p>Removed Advanced textures to increase performance and reduce lag.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-node">
-                        <div class="timeline-indicator"><div class="indicator-dot"></div></div>
-                        <div class="timeline-content">
-                            <h4>Sleek Blur Integration</h4>
-                            <p>Replaced the live control center blur with a sleek, clean lite blur that doesn't eat up much performance.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-node">
-                        <div class="timeline-indicator"><div class="indicator-dot"></div></div>
-                        <div class="timeline-content">
-                            <h4>System Optimization</h4>
-                            <p>Simplified the animations of the control center, and replaced the System launcher with a more lightweight, internal Launcher to reduce stutters.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="devices-view" id="devices">
-            <h2>Supported Devices</h2>
+    <header>
+        <div class="nav-container">
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#home">HOME</a></li>
+                    <li><a href="#features">FEATURES</a></li>
+                    <li><a href="#swift" style="font-weight: 700;">SWIFT</a></li>
+                    <li><a href="#devices">DEVICES</a></li>
+                    <li><a href="#flash">FLASH GUIDE</a></li>
+                    <li><a href="#contribute">CONTRIBUTE</a></li>
+                </ul>
+            </nav>
             
-            <div class="device-grid">
-                <div class="device-card">
-                    <div class="device-showcase">
-                        <span class="device-build-tag">OS3.0.302_SWIFT</span>
-                        <div class="device-img-placeholder">[ Redmi Note 13 Pro Image ]</div>
-                    </div>
-                    <div class="device-meta">
-                        Redmi Note 13 Pro<br>4G / POCO M6 Pro 4G
-                    </div>
+            <button class="theme-toggle" id="themeBtn" aria-label="Toggle Theme">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12.1,22c-4.9,0-9-3.8-9.4-8.7c-0.1-1,0.1-2,0.5-3c0.6-1.5,1.7-2.8,3.1-3.6C7,6.2,7.9,5.9,8.9,5.7c0.4-0.1,0.8,0.2,0.9,0.6c0.1,0.4-0.2,0.8-0.6,0.9C8.4,7.3,7.6,7.5,6.9,8c-1.1,0.7-2,1.7-2.4,2.9c-0.3,0.8-0.5,1.6-0.4,2.5c0.3,3.9,3.6,6.9,7.5,6.9c3.5,0,6.5-2.4,7.3-5.7c0.1-0.4,0.5-0.7,0.9-0.6c0.4,0.1,0.7,0.5,0.6,0.9C19.6,18.3,16.1,22,12.1,22z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section id="swift" class="swift-section">
+            <div class="swift-container">
+                
+                <div class="swift-logo-col">
+                    <img src="SWIFT.png" alt="SWIFT Light Asset" class="swift-logo light-mode-only">
+                    <img src="SWIFTdark.png" alt="SWIFT Dark Asset" class="swift-logo dark-mode-only">
                 </div>
 
-                <div class="device-card">
-                    <div class="device-showcase">
-                        <span class="device-build-tag">OS3.0.302_RE/SWIFT</span>
-                        <div class="device-img-placeholder">[ Redmi Note 14 Pro Image ]</div>
-                    </div>
-                    <div class="device-meta">
-                        Redmi Note 14 pro<br>5G / POCO X7
-                    </div>
+                <div class="swift-content-col">
+                    <p class="swift-description">
+                        Remastered is the pure, base HyperOS REMASTERED, without any compromises. 
+                        Remastered SWIFT however, disables Advanced textures and replaces Live blur 
+                        with Static, Lite blur for efficiency and less lag. It also replaces the 
+                        Remastered launcher with our internal, Custom Lightweight version for stability.
+                    </p>
+                    
+                    <ul class="swift-features-list">
+                        <li>
+                            <span class="feature-title">Texture Refactoring</span>
+                            <span class="feature-desc">Removed Advanced textures to increase performance and reduce lag.</span>
+                        </li>
+                        <li>
+                            <span class="feature-title">Sleek Blur Integration</span>
+                            <span class="feature-desc">Replaced the live control center blur with a sleek, clean lite blur that doesn't eat up much performance.</span>
+                        </li>
+                        <li>
+                            <span class="feature-title">System Optimization</span>
+                            <span class="feature-desc">Simplified the animations of the control center, and replaced the System launcher with a more lightweight, internal Launcher to reduce stutters.</span>
+                        </li>
+                    </ul>
                 </div>
 
-                <div class="device-card">
-                    <div class="device-showcase">
-                        <span class="device-build-tag">OS3.0.302_STABLE</span>
-                        <div class="device-img-placeholder">[ Device PNG Placeholder ]</div>
-                    </div>
-                    <div class="device-meta">
-                        Coming Soon
-                    </div>
-                </div>
-
-                <div class="device-card">
-                    <div class="device-showcase">
-                        <span class="device-build-tag">OS3.0.302_STABLE</span>
-                        <div class="device-img-placeholder">[ Device PNG Placeholder ]</div>
-                    </div>
-                    <div class="device-meta">
-                        Coming Soon
-                    </div>
-                </div>
             </div>
         </section>
-
-    </div>
+    </main>
 
     <script>
-        // Monitor scroll coordinates to check when the logo box clears the layout boundary
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 145) {
-                document.body.classList.add('is-scrolled');
-            } else {
-                document.body.classList.remove('is-scrolled');
-            }
+        const themeBtn = document.getElementById('themeBtn');
+        
+        // Simple dark mode toggle hook
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
         });
-
-        // Theme Toggle Controller & Image Switching Logic
-        const themeToggleBtn = document.getElementById('themeToggle');
-        const brandLogo = document.getElementById('brandLogo');
-
-        themeToggleBtn.addEventListener('click', () => {
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            if (isDark) {
-                document.documentElement.removeAttribute('data-theme');
-                brandLogo.src = "Logo.png";
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                brandLogo.src = "logoDark.png";
-            }
-        });
+        
+        // Optional: Auto-detect system/browser preference on initial boot
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark-mode');
+        }
     </script>
 </body>
 </html>
