@@ -25,6 +25,7 @@
             --border-line: #e5e5ea;
             --note-bg: rgba(0, 0, 0, 0.04);
             --note-border: #ff9500;
+            --error-border: #ff3b30;
         }
 
         [data-theme="dark"] {
@@ -46,6 +47,7 @@
             --border-line: #2c2c2e;
             --note-bg: rgba(255, 255, 255, 0.04);
             --note-border: #ff9500;
+            --error-border: #ff453a;
         }
 
         /* Base Reset */
@@ -392,7 +394,7 @@
             width: 100%;
             max-width: 1200px;
             scroll-margin-top: 120px;
-            padding: 60px 40px 120px 40px;
+            padding: 60px 40px 60px 40px;
             text-align: center;
         }
 
@@ -480,6 +482,75 @@
             color: var(--text-main);
         }
 
+        /* Flash Guide Section Style */
+        .flash-guide-view {
+            width: 100%;
+            max-width: 900px;
+            scroll-margin-top: 120px;
+            padding: 80px 24px 120px 24px;
+        }
+
+        .flash-guide-view h2 {
+            font-size: 2rem;
+            font-weight: 400;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--text-main);
+        }
+
+        .guide-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+        }
+
+        .step-block {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .step-number {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-sub);
+            opacity: 0.6;
+        }
+
+        .step-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .step-desc {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--text-sub);
+        }
+
+        .code-inline {
+            font-family: monospace;
+            background-color: var(--note-bg);
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        .critical-note {
+            margin-top: 15px;
+            padding: 16px 20px;
+            background-color: var(--note-bg);
+            border-radius: 14px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-sub);
+            border-left: 3.5px solid var(--error-border);
+        }
+
         /* Enhanced Responsive Breakpoints Rules */
         @media (max-width: 1024px) {
             .device-grid { grid-template-columns: repeat(2, 1fr); }
@@ -515,18 +586,20 @@
             h1 { font-size: 2.1rem; line-height: 1.2; }
             .hero-desc { font-size: 1rem; margin-bottom: 30px; }
             .section-header h2 { font-size: 1.75rem; }
+            .flash-guide-view h2 { font-size: 1.75rem; }
             
             /* Layout Collapse Settings */
             .features-view { padding-top: 20px; }
             .features-container { grid-template-columns: 1fr; gap: 36px; }
             .swift-view { padding: 40px 24px; }
+            .flash-guide-view { padding-bottom: 80px; }
             
             /* Standard Full-width Flex Buttons */
             .action-container { flex-direction: column; gap: 12px; width: 100%; max-width: 300px; }
             .btn { width: 100%; padding: 14px 0; text-align: center; }
             
             /* Devices Grid Layout Reduction */
-            .devices-view { padding: 40px 20px 80px 20px; }
+            .devices-view { padding: 40px 20px; }
             .devices-view h2 { margin-bottom: 35px; font-size: 1.75rem; }
             .device-grid { grid-template-columns: 1fr; max-width: 320px; margin: 0 auto; gap: 20px; }
             .device-card { min-height: 360px; }
@@ -562,7 +635,7 @@
                 <span class="separator">|</span>
                 <li><a href="#devices">Devices</a></li>
                 <span class="separator">|</span>
-                <li><a href="#">Flash Guide</a></li>
+                <li><a href="#flash-guide">Flash Guide</a></li>
                 <span class="separator">|</span>
                 <li><a href="#">Contribute</a></li>
             </ul>
@@ -699,6 +772,47 @@
                     </div>
                     <div class="device-meta">
                         Coming Soon
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="flash-guide-view" id="flash-guide">
+            <h2>Fastboot Installation Guide</h2>
+            
+            <div class="guide-steps">
+                <div class="step-block">
+                    <span class="step-number">Step 01</span>
+                    <h3 class="step-title">Prerequisites</h3>
+                    <p class="step-desc">
+                        Ensure your device's bootloader is completely unlocked. Back up all vital internal storage data, as installation will factory reset your system. Download the Fastboot ROM zip file specifically engineered for your hardware variant and extract it entirely onto your computer.
+                    </p>
+                </div>
+
+                <div class="step-block">
+                    <span class="step-number">Step 02</span>
+                    <h3 class="step-title">Enter Fastboot Mode</h3>
+                    <p class="step-desc">
+                        Power down your device completely. Hold down the <strong>Power Button</strong> and the <strong>Volume Down Button</strong> simultaneously until the screen switches over to the official Fastboot construction screen. Once visible, securely link your device to the computer using an optimal USB interface cable.
+                    </p>
+                </div>
+
+                <div class="step-block">
+                    <span class="step-number">Step 03</span>
+                    <h3 class="step-title">Execute Installation Script</h3>
+                    <p class="step-desc">
+                        Open the extracted Fastboot archive directory folder on your desktop. Locate the flashing initialization script optimized for your environment: run <span class="code-inline">windows_fastboot_first_install_with_data_format.bat</span> on Windows architectures, or launch <span class="code-inline">macos_linux_fastboot_first_install_with_data_format.sh</span> via terminal parameters on UNIX systems.
+                    </p>
+                </div>
+
+                <div class="step-block">
+                    <span class="step-number">Step 04</span>
+                    <h3 class="step-title">Finalize Initialization</h3>
+                    <p class="step-desc">
+                        A confirmation text console will deploy. Confirm terminal script deployment parameters and wait patiently as the terminal patches system imagery partitions. Once internal operations conclude successfully, the terminal wrapper close command triggers automatically, forcing your device to initialize into HyperOS Remastered.
+                    </p>
+                    <div class="critical-note">
+                        <strong>Critical:</strong> Never extract or deploy flashing script architecture tools directly on USB hubs or volatile storage networks. For seamless system deployment and to prevent accidental execution errors, maintain extraction files locally in safe root environments.
                     </div>
                 </div>
             </div>
