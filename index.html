@@ -18,8 +18,8 @@
             --btn-changelogs-text: #ffffff;
             --icon-color: #000000;
             
-            /* Sticky Header Glassmorphism Gradients */
-            --header-bg: linear-gradient(to bottom, rgba(255, 255, 255, 0.92) 60%, rgba(255, 255, 255, 0.0));
+            /* Gradient Panel Blurs - Light Theme */
+            --blur-panel-bg: rgba(255, 255, 255, 0.65);
             
             /* Device Card Theme Variables */
             --card-border: #333333;
@@ -40,8 +40,8 @@
             --btn-changelogs-text: #000000;
             --icon-color: #ffffff;
             
-            /* Sticky Header Glassmorphism Gradients - Dark */
-            --header-bg: linear-gradient(to bottom, rgba(10, 10, 12, 0.92) 60%, rgba(10, 10, 12, 0.0));
+            /* Gradient Panel Blurs - Dark Theme */
+            --blur-panel-bg: rgba(10, 10, 12, 0.65);
             
             /* Dark Mode Device Card Alterations */
             --card-border: #444446;
@@ -59,7 +59,7 @@
         }
 
         html {
-            scroll-behavior: smooth; /* Enables smooth animated scroll navigation */
+            scroll-behavior: smooth;
         }
 
         body {
@@ -72,24 +72,36 @@
             position: relative;
         }
 
-        /* Fixed / Sticky Header Top Bar Layout */
-        header {
+        /* HyperOS Gradient Blur Panel 
+           Uses webkit masking to smoothly drop blur intensity from 100% to 0%
+        */
+        .blur-gradient-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
+            height: 140px; /* Extends down to safely cover the floating bar */
+            background: var(--blur-panel-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            pointer-events: none;
+            z-index: 90;
+            -webkit-mask-image: linear-gradient(to bottom, black 40%, rgba(0, 0, 0, 0.8) 60%, rgba(0, 0, 0, 0));
+            mask-image: linear-gradient(to bottom, black 40%, rgba(0, 0, 0, 0.8) 60%, rgba(0, 0, 0, 0));
+        }
+
+        /* Standard Page Header Container (Scrollable) */
+        header {
+            width: 100%;
+            max-width: 1200px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 30px 20px 40px 20px;
-            z-index: 100;
-            
-            /* Gradient fade with background blur */
-            background: var(--header-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            padding-top: 40px;
+            z-index: 10;
         }
 
+        /* Logo Area - This will now naturally scroll up and out of sight */
         .logo-area {
             width: 100%;
             max-width: 480px;
@@ -109,11 +121,21 @@
             letter-spacing: 1px;
         }
 
-        /* Navigation Menu Structure */
+        /* Sticky Floating Navigation Container */
+        .nav-wrapper {
+            position: fixed;
+            top: 40px; /* Floating look matching your original screenshot */
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         nav {
             display: flex;
             align-items: center;
             gap: 20px;
+            background: transparent;
         }
 
         .nav-links {
@@ -148,7 +170,7 @@
             user-select: none;
         }
 
-        /* Theme Toggle Button Icon Settings */
+        /* Theme Toggle Icon Button Settings */
         .theme-toggle-btn {
             background: transparent;
             border: none;
@@ -188,16 +210,15 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Pushes down content so it starts perfectly below the fixed header */
-            margin-top: 210px; 
+            margin-top: 60px; /* Balances spacing since nav element is pulled to fixed layer */
         }
 
         /* Hero Landing Screen Section */
         .hero-view {
             width: 100%;
             max-width: 800px;
-            min-height: calc(100vh - 210px);
-            padding: 40px 24px 80px 24px;
+            min-height: calc(100vh - 250px);
+            padding: 60px 24px 80px 24px;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -257,8 +278,7 @@
         .devices-view {
             width: 100%;
             max-width: 1200px;
-            /* Account for sticky header offset when clicking anchor tags */
-            scroll-margin-top: 230px; 
+            scroll-margin-top: 120px; /* Accounts for floating navbar offset during jump scroll */
             padding: 60px 40px 120px 40px;
             text-align: center;
         }
@@ -352,25 +372,30 @@
         }
 
         @media (max-width: 768px) {
-            header { padding: 20px 10px 30px 10px; }
-            .content-sections { margin-top: 190px; }
-            .hero-view { min-height: calc(100vh - 190px); }
+            header { padding-top: 20px; }
+            .nav-wrapper { top: 140px; position: absolute; } /* Keeps it static or stacked nicely on smaller viewpoints */
+            .blur-gradient-overlay { display: none; } /* Drop overlay on small screens to maintain layout text readability */
+            .content-sections { margin-top: 100px; }
             h1 { font-size: 2.2rem; }
             .nav-links { font-size: 0.95rem; flex-wrap: wrap; justify-content: center; }
             .action-container { flex-direction: column; gap: 15px; width: 100%; max-width: 280px; }
             .btn { width: 100%; padding: 12px 0; }
-            .devices-view { scroll-margin-top: 200px; }
+            .devices-view { scroll-margin-top: 40px; }
             .device-grid { grid-template-columns: 1fr; max-width: 320px; margin: 0 auto; }
         }
     </style>
 </head>
 <body>
 
+    <div class="blur-gradient-overlay"></div>
+
     <header>
         <div class="logo-area">
             <span class="logo-placeholder-text">[ Xiaomi HyperOS Remastered Logo ]</span>
         </div>
+    </header>
 
+    <div class="nav-wrapper">
         <nav>
             <ul class="nav-links">
                 <li><a href="#">Home</a></li>
@@ -389,7 +414,7 @@
                 <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.72" x2="5.64" y2="18.3"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
             </button>
         </nav>
-    </header>
+    </div>
 
     <div class="content-sections">
         
@@ -400,7 +425,7 @@
             </p>
 
             <div class="action-container">
-                <a href="#devices" class="btn btn-get-started" style="display: inline-block; text-align: center;">Get Started</a>
+                <a href="#devices" class="btn btn-get-started" style="display: inline-block; text-align: center; line-height: 1.2;">Get Started</a>
                 <button class="btn btn-changelogs" onclick="event.preventDefault()">Changelogs</button>
             </div>
         </section>
