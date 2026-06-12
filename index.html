@@ -18,6 +18,9 @@
             --btn-changelogs-text: #ffffff;
             --icon-color: #000000;
             
+            /* Sticky Header Glassmorphism Gradients */
+            --header-bg: linear-gradient(to bottom, rgba(255, 255, 255, 0.92) 60%, rgba(255, 255, 255, 0.0));
+            
             /* Device Card Theme Variables */
             --card-border: #333333;
             --card-divider: #333333;
@@ -37,6 +40,9 @@
             --btn-changelogs-text: #000000;
             --icon-color: #ffffff;
             
+            /* Sticky Header Glassmorphism Gradients - Dark */
+            --header-bg: linear-gradient(to bottom, rgba(10, 10, 12, 0.92) 60%, rgba(10, 10, 12, 0.0));
+            
             /* Dark Mode Device Card Alterations */
             --card-border: #444446;
             --card-divider: #444446;
@@ -53,7 +59,7 @@
         }
 
         html {
-            scroll-behavior: smooth; /* Enables smooth jumping when clicking links */
+            scroll-behavior: smooth; /* Enables smooth animated scroll navigation */
         }
 
         body {
@@ -66,15 +72,22 @@
             position: relative;
         }
 
-        /* Top Bar Layout */
+        /* Fixed / Sticky Header Top Bar Layout */
         header {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 1200px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 40px;
-            z-index: 10;
+            padding: 30px 20px 40px 20px;
+            z-index: 100;
+            
+            /* Gradient fade with background blur */
+            background: var(--header-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         .logo-area {
@@ -175,14 +188,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            /* Pushes down content so it starts perfectly below the fixed header */
+            margin-top: 210px; 
         }
 
         /* Hero Landing Screen Section */
         .hero-view {
             width: 100%;
             max-width: 800px;
-            min-height: calc(100vh - 250px);
-            padding: 80px 24px 100px 24px;
+            min-height: calc(100vh - 210px);
+            padding: 40px 24px 80px 24px;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -242,6 +257,8 @@
         .devices-view {
             width: 100%;
             max-width: 1200px;
+            /* Account for sticky header offset when clicking anchor tags */
+            scroll-margin-top: 230px; 
             padding: 60px 40px 120px 40px;
             text-align: center;
         }
@@ -274,7 +291,6 @@
             transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* Hover bounce configuration */
         .device-card:hover {
             transform: translateY(-8px);
         }
@@ -306,7 +322,6 @@
             max-width: 100%;
             object-fit: contain;
             margin-top: 15px;
-            /* Once ready, clear out this dashed setup below when adding actual images */
             border: 1px dashed rgba(128, 128, 128, 0.15);
             border-radius: 12px;
             display: flex;
@@ -337,10 +352,14 @@
         }
 
         @media (max-width: 768px) {
+            header { padding: 20px 10px 30px 10px; }
+            .content-sections { margin-top: 190px; }
+            .hero-view { min-height: calc(100vh - 190px); }
             h1 { font-size: 2.2rem; }
             .nav-links { font-size: 0.95rem; flex-wrap: wrap; justify-content: center; }
             .action-container { flex-direction: column; gap: 15px; width: 100%; max-width: 280px; }
             .btn { width: 100%; padding: 12px 0; }
+            .devices-view { scroll-margin-top: 200px; }
             .device-grid { grid-template-columns: 1fr; max-width: 320px; margin: 0 auto; }
         }
     </style>
@@ -381,7 +400,7 @@
             </p>
 
             <div class="action-container">
-                <button class="btn btn-get-started" onclick="event.preventDefault()">Get Started</button>
+                <a href="#devices" class="btn btn-get-started" style="display: inline-block; text-align: center;">Get Started</a>
                 <button class="btn btn-changelogs" onclick="event.preventDefault()">Changelogs</button>
             </div>
         </section>
