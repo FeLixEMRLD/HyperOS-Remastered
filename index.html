@@ -10,16 +10,16 @@
             --bg-color: #ffffff;
             --text-main: #000000;
             --text-sub: #222222;
-            --nav-links-color: #000000;
+            --nav-links-color: #ffffff; /* White text looks sharp against the new dark blur header */
             --btn-get-started-bg: transparent;
             --btn-get-started-border: #000000;
             --btn-get-started-text: #000000;
             --btn-changelogs-bg: #000000;
             --btn-changelogs-text: #ffffff;
-            --icon-color: #000000;
+            --icon-color: #ffffff;
             
-            /* Gradient Panel Blurs - Light Theme */
-            --blur-panel-bg: rgba(255, 255, 255, 0.65);
+            /* Universal Dark Premium Blur Theme Panels */
+            --blur-panel-bg: rgba(10, 10, 12, 0.75);
             
             /* Device Card Theme Variables */
             --card-border: #333333;
@@ -40,8 +40,7 @@
             --btn-changelogs-text: #000000;
             --icon-color: #ffffff;
             
-            /* Gradient Panel Blurs - Dark Theme */
-            --blur-panel-bg: rgba(10, 10, 12, 0.65);
+            --blur-panel-bg: rgba(5, 5, 8, 0.82);
             
             /* Dark Mode Device Card Alterations */
             --card-border: #444446;
@@ -72,36 +71,42 @@
             position: relative;
         }
 
-        /* HyperOS Gradient Blur Panel 
-           Uses webkit masking to smoothly drop blur intensity from 100% to 0%
+        /* Persistent Dynamic Blur Panel
+           Fixed layout that sits right beneath the sticky navigation to capture background elements.
         */
         .blur-gradient-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 140px; /* Extends down to safely cover the floating bar */
+            height: 90px; 
             background: var(--blur-panel-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             pointer-events: none;
             z-index: 90;
-            -webkit-mask-image: linear-gradient(to bottom, black 40%, rgba(0, 0, 0, 0.8) 60%, rgba(0, 0, 0, 0));
-            mask-image: linear-gradient(to bottom, black 40%, rgba(0, 0, 0, 0.8) 60%, rgba(0, 0, 0, 0));
+            -webkit-mask-image: linear-gradient(to bottom, black 50%, rgba(0, 0, 0, 0.8) 75%, rgba(0, 0, 0, 0));
+            mask-image: linear-gradient(to bottom, black 50%, rgba(0, 0, 0, 0.8) 75%, rgba(0, 0, 0, 0));
+            opacity: 0; /* Hidden by default when sitting underneath the raw landing screen */
+            transition: opacity 0.25s ease;
         }
 
-        /* Standard Page Header Container (Scrollable) */
+        /* Reveals the dark premium fade blur once scrolling triggers layout change */
+        body.is-scrolled .blur-gradient-overlay {
+            opacity: 1;
+        }
+
+        /* Master Layout Header Container */
         header {
             width: 100%;
-            max-width: 1200px;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding-top: 40px;
-            z-index: 10;
+            z-index: 100;
         }
 
-        /* Logo Area - This will now naturally scroll up and out of sight */
+        /* Logo Component - Naturally scrolls up out of frame */
         .logo-area {
             width: 100%;
             max-width: 480px;
@@ -109,7 +114,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 35px;
             border: 2px dashed rgba(128, 128, 128, 0.2);
             border-radius: 8px;
         }
@@ -121,14 +126,23 @@
             letter-spacing: 1px;
         }
 
-        /* Sticky Floating Navigation Container */
-        .nav-wrapper {
-            position: fixed;
-            top: 40px; /* Floating look matching your original screenshot */
-            z-index: 100;
+        /* Sticky Navigation Wrapper
+           Acts normal until it hits the top viewport bounds, then stays locked.
+        */
+        .nav-sticky-container {
+            position: sticky;
+            top: 0;
+            width: 100%;
             display: flex;
             justify-content: center;
-            align-items: center;
+            padding: 15px 20px;
+            z-index: 100;
+            transition: padding 0.3s ease;
+        }
+
+        /* Swaps navigation layout styles cleanly when locked into header scroll state */
+        body.is-scrolled .nav-sticky-container {
+            padding: 20px 20px;
         }
 
         nav {
@@ -136,6 +150,15 @@
             align-items: center;
             gap: 20px;
             background: transparent;
+            border-radius: 30px;
+            padding: 8px 24px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* When scrolled, give the navbar menu list a subtle container border layer */
+        body.is-scrolled nav {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .nav-links {
@@ -153,11 +176,15 @@
         }
 
         .nav-links a {
-            color: var(--nav-links-color);
+            color: var(--text-main);
             text-decoration: none;
             text-transform: uppercase;
             padding: 0 10px;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.2s ease, color 0.2s ease;
+        }
+
+        body.is-scrolled .nav-links a {
+            color: var(--nav-links-color);
         }
 
         .nav-links a:hover {
@@ -181,6 +208,11 @@
             padding: 5px;
             color: var(--icon-color);
             margin-left: 10px;
+            transition: color 0.2s ease;
+        }
+
+        body:not(.is-scrolled) .theme-toggle-btn {
+            color: var(--text-main);
         }
 
         .theme-toggle-btn svg {
@@ -210,15 +242,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 60px; /* Balances spacing since nav element is pulled to fixed layer */
         }
 
         /* Hero Landing Screen Section */
         .hero-view {
             width: 100%;
             max-width: 800px;
-            min-height: calc(100vh - 250px);
-            padding: 60px 24px 80px 24px;
+            min-height: calc(100vh - 220px);
+            padding: 40px 24px 80px 24px;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -278,7 +309,7 @@
         .devices-view {
             width: 100%;
             max-width: 1200px;
-            scroll-margin-top: 120px; /* Accounts for floating navbar offset during jump scroll */
+            scroll-margin-top: 90px; /* Aligns content clean with the fixed dark header overlay boundary */
             padding: 60px 40px 120px 40px;
             text-align: center;
         }
@@ -373,14 +404,15 @@
 
         @media (max-width: 768px) {
             header { padding-top: 20px; }
-            .nav-wrapper { top: 140px; position: absolute; } /* Keeps it static or stacked nicely on smaller viewpoints */
-            .blur-gradient-overlay { display: none; } /* Drop overlay on small screens to maintain layout text readability */
-            .content-sections { margin-top: 100px; }
-            h1 { font-size: 2.2rem; }
+            .blur-gradient-overlay { display: none; }
+            .nav-sticky-container { position: relative; padding: 10px !important; }
+            nav { background: none !important; border: none !important; flex-direction: column; gap: 10px; }
             .nav-links { font-size: 0.95rem; flex-wrap: wrap; justify-content: center; }
+            .nav-links a { color: var(--text-main) !important; }
+            .theme-toggle-btn { color: var(--text-main) !important; margin-left: 0; }
             .action-container { flex-direction: column; gap: 15px; width: 100%; max-width: 280px; }
             .btn { width: 100%; padding: 12px 0; }
-            .devices-view { scroll-margin-top: 40px; }
+            .devices-view { scroll-margin-top: 20px; }
             .device-grid { grid-template-columns: 1fr; max-width: 320px; margin: 0 auto; }
         }
     </style>
@@ -393,28 +425,28 @@
         <div class="logo-area">
             <span class="logo-placeholder-text">[ Xiaomi HyperOS Remastered Logo ]</span>
         </div>
+
+        <div class="nav-sticky-container">
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <span class="separator">|</span>
+                    <li><a href="#">Features</a></li>
+                    <span class="separator">|</span>
+                    <li><a href="#devices">Devices</a></li>
+                    <span class="separator">|</span>
+                    <li><a href="#">Flash Guide</a></li>
+                    <span class="separator">|</span>
+                    <li><a href="#">Contribute</a></li>
+                </ul>
+
+                <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                    <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.72" x2="5.64" y2="18.3"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                </button>
+            </nav>
+        </div>
     </header>
-
-    <div class="nav-wrapper">
-        <nav>
-            <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <span class="separator">|</span>
-                <li><a href="#">Features</a></li>
-                <span class="separator">|</span>
-                <li><a href="#devices">Devices</a></li>
-                <span class="separator">|</span>
-                <li><a href="#">Flash Guide</a></li>
-                <span class="separator">|</span>
-                <li><a href="#">Contribute</a></li>
-            </ul>
-
-            <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
-                <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.72" x2="5.64" y2="18.3"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-            </button>
-        </nav>
-    </div>
 
     <div class="content-sections">
         
@@ -479,6 +511,16 @@
     </div>
 
     <script>
+        // Track page offsets to trigger sticky transitions once the logo leaves the viewport bounds
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 120) {
+                document.body.classList.add('is-scrolled');
+            } else {
+                document.body.classList.remove('is-scrolled');
+            }
+        });
+
+        // Theme Toggle Controller
         const themeToggleBtn = document.getElementById('themeToggle');
         themeToggleBtn.addEventListener('click', () => {
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
