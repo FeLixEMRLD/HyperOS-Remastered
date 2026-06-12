@@ -287,7 +287,7 @@
         .features-view {
             width: 100%;
             max-width: 1100px;
-            scroll-margin-top: 120px; /* Adjusted to account for sticky bar on mobile */
+            scroll-margin-top: 120px;
             padding: 80px 24px 40px 24px;
         }
 
@@ -543,6 +543,14 @@
     </style>
 </head>
 <body>
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
 
     <div class="blur-gradient-overlay"></div>
 
@@ -708,6 +716,23 @@
     </div>
 
     <script>
+        // Adjust elements to correctly reflect initial theme on asset images load
+        const brandLogo = document.getElementById('brandLogo');
+        const swiftLogo = document.getElementById('swiftLogo');
+        
+        function applySavedAssets() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                brandLogo.src = "logoDark.png";
+                swiftLogo.src = "SWIFTdark.png";
+            } else {
+                brandLogo.src = "Logo.png";
+                swiftLogo.src = "SWIFT.png";
+            }
+        }
+        // Initialize image sources correctly based on current layout parameters
+        applySavedAssets();
+
         window.addEventListener('scroll', () => {
             if (window.scrollY > 145) {
                 document.body.classList.add('is-scrolled');
@@ -717,20 +742,17 @@
         });
 
         const themeToggleBtn = document.getElementById('themeToggle');
-        const brandLogo = document.getElementById('brandLogo');
-        const swiftLogo = document.getElementById('swiftLogo');
 
         themeToggleBtn.addEventListener('click', () => {
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
             if (isDark) {
                 document.documentElement.removeAttribute('data-theme');
-                brandLogo.src = "Logo.png";
-                swiftLogo.src = "SWIFT.png";
+                localStorage.setItem('theme', 'light');
             } else {
                 document.documentElement.setAttribute('data-theme', 'dark');
-                brandLogo.src = "logoDark.png";
-                swiftLogo.src = "SWIFTdark.png";
+                localStorage.setItem('theme', 'dark');
             }
+            applySavedAssets();
         });
     </script>
 </body>
