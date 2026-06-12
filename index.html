@@ -9,7 +9,7 @@
         :root {
             --bg-color: #ffffff;
             --text-main: #000000;
-            --text-sub: #222222;
+            --text-sub: #444446;
             --nav-links-color: #000000;
             --btn-get-started-bg: transparent;
             --btn-get-started-border: #000000;
@@ -21,17 +21,18 @@
             /* Crisp Light Theme Translucent Blur */
             --blur-panel-bg: rgba(255, 255, 255, 0.7);
             
-            /* Device Card Theme Variables */
-            --card-border: #333333;
-            --card-divider: #333333;
-            --card-bg: transparent;
-            --badge-text: #555555;
+            /* Bento & Card Theme Variables */
+            --card-border: #e5e5ea;
+            --card-divider: #e5e5ea;
+            --card-bg: #f2f2f7;
+            --badge-text: #8e8e93;
+            --note-bg: rgba(0, 0, 0, 0.05);
         }
 
         [data-theme="dark"] {
             --bg-color: #0a0a0c;
             --text-main: #ffffff;
-            --text-sub: #e4e4e7;
+            --text-sub: #a1a1aa;
             --nav-links-color: #ffffff;
             --btn-get-started-bg: transparent;
             --btn-get-started-border: #ffffff;
@@ -43,10 +44,12 @@
             /* Sleek Dark Theme Translucent Blur */
             --blur-panel-bg: rgba(10, 10, 12, 0.7);
             
-            /* Dark Mode Device Card Alterations */
-            --card-border: #444446;
-            --card-divider: #444446;
-            --badge-text: #a1a1aa;
+            /* Dark Mode Bento Card Alterations */
+            --card-border: #2c2c2e;
+            --card-divider: #2c2c2e;
+            --card-bg: #1c1c1e;
+            --badge-text: #7c7c80;
+            --note-bg: rgba(255, 255, 255, 0.05);
         }
 
         /* Base Reset */
@@ -105,7 +108,6 @@
             z-index: 95;
         }
 
-        /* Responsive Brand Logo Sizing Block */
         .logo-area {
             width: 100%;
             max-width: 480px;
@@ -276,6 +278,84 @@
             opacity: 0.95;
         }
 
+        /* Features Section View */
+        .features-view {
+            width: 100%;
+            max-width: 1100px;
+            scroll-margin-top: 70px;
+            padding: 80px 24px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            font-weight: 400;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        /* Features Columns Layout */
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            width: 100%;
+        }
+
+        .feature-group-column {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .feature-group-column h3 {
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--text-main);
+            padding-left: 8px;
+            border-left: 3.5px solid var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        /* Bento Architecture Feature Cards */
+        .bento-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .bento-card .feature-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .bento-card .feature-desc {
+            font-size: 1rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+        }
+
+        /* Highlight Frame for Gaussian Engine Performance Flag */
+        .performance-note {
+            margin-top: 8px;
+            padding: 12px 16px;
+            background-color: var(--note-bg);
+            border-radius: 14px;
+            font-size: 0.88rem;
+            line-height: 1.4;
+            color: var(--text-sub);
+            border-left: 3px solid #ff9500;
+        }
+
         /* Devices List Section View */
         .devices-view {
             width: 100%;
@@ -302,7 +382,7 @@
 
         /* Device Card Layout Container */
         .device-card {
-            background: var(--card-bg);
+            background: transparent;
             border: 2.5px solid var(--card-border);
             border-radius: 32px;
             display: flex;
@@ -379,6 +459,7 @@
             .nav-container { position: relative; padding: 10px 0; }
             nav { flex-direction: column; gap: 10px; }
             .nav-links { font-size: 0.95rem; flex-wrap: wrap; justify-content: center; }
+            .features-container { grid-template-columns: 1fr; gap: 40px; }
             .action-container { flex-direction: column; gap: 15px; width: 100%; max-width: 280px; }
             .btn { width: 100%; padding: 12px 0; }
             .devices-view { scroll-margin-top: 20px; }
@@ -401,7 +482,7 @@
             <ul class="nav-links">
                 <li><a href="#">Home</a></li>
                 <span class="separator">|</span>
-                <li><a href="#">Features</a></li>
+                <li><a href="#features">Features</a></li>
                 <span class="separator">|</span>
                 <li><a href="#devices">Devices</a></li>
                 <span class="separator">|</span>
@@ -426,8 +507,67 @@
             </p>
 
             <div class="action-container">
-                <a href="#devices" class="btn btn-get-started" style="display: inline-block; text-align: center; line-height: 1.2;">Get Started</a>
+                <a href="#features" class="btn btn-get-started" style="display: inline-block; text-align: center; line-height: 1.2;">Get Started</a>
                 <button class="btn btn-changelogs" onclick="event.preventDefault()">Changelogs</button>
+            </div>
+        </section>
+
+        <section class="features-view" id="features">
+            <div class="section-header">
+                <h2>ROM Engineering & Capabilities</h2>
+            </div>
+
+            <div class="features-container">
+                <div class="feature-group-column">
+                    <h3>Enhanced Visuals</h3>
+                    
+                    <div class="bento-card">
+                        <div class="feature-title">Advanced Textures</div>
+                        <div class="feature-desc">Implemented a system-wide "Gaussian" blur to UI elements.</div>
+                        <div class="performance-note">
+                            <strong>Note:</strong> The system may experience slight lag when handling advanced textures; utilize this feature wisely for optimal performance.
+                        </div>
+                    </div>
+
+                    <div class="bento-card">
+                        <div class="feature-title">Elevated Lockscreen Styles</div>
+                        <div class="feature-desc">Added new "People" and "Animals" lockscreen designs to enhance the user experience.</div>
+                    </div>
+
+                    <div class="bento-card">
+                        <div class="feature-title">High-End Animations</div>
+                        <div class="feature-desc">Integrated premium system animations, including wallpaper zoom for both the native launcher and the Always-On Display (AOD), providing extensive home screen customization options.</div>
+                    </div>
+                </div>
+
+                <div class="feature-group-column">
+                    <h3>Overall Features</h3>
+
+                    <div class="bento-card">
+                        <div class="feature-title">System Integrity & Flexibility</div>
+                        <div class="feature-desc">Upgraded system integrity to "Strong" and integrated Kaorios to maximize operational flexibility.</div>
+                    </div>
+
+                    <div class="bento-card">
+                        <div class="feature-title">Disabled Signature Verification</div>
+                        <div class="feature-desc">Removed system-wide signature verification, enabling the unrestricted installation of modified system applications.</div>
+                    </div>
+
+                    <div class="bento-card">
+                        <div class="feature-title">Disabled Secure Flag</div>
+                        <div class="feature-desc">Bypassed the secure flag constraint, allowing users to take screenshots within any application.</div>
+                    </div>
+
+                    <div class="bento-card">
+                        <div class="feature-title">Camera Enhancements</div>
+                        <div class="feature-desc">Added the "Live Photo" feature directly inside the native camera application.</div>
+                    </div>
+
+                    <div class="bento-card">
+                        <div class="feature-title">Dynamic Refresh Rates</div>
+                        <div class="feature-desc">Implemented a 90Hz screen refresh rate option, giving users the flexibility to switch seamlessly between 120Hz, 90Hz, and 60Hz.</div>
+                    </div>
+                </div>
             </div>
         </section>
 
