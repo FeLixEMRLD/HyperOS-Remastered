@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supported Devices - HyperOS Remastered</title>
+    <style>
+        /* Color System & CSS Variables match the primary index layout */
+        :root {
+            --bg-color: #ffffff;
+            --text-main: #000000;
+            --text-sub: #444446;
+            --nav-links-color: #000000;
+            --icon-color: #000000;
+            --blur-panel-bg: rgba(255, 255, 255, 0.7);
+            --border-line: #e5e5ea;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0a0a0c;
+            --text-main: #ffffff;
+            --text-sub: #a1a1aa;
+            --nav-links-color: #ffffff;
+            --icon-color: #ffffff;
+            --blur-panel-bg: rgba(10, 10, 12, 0.7);
+            --border-line: #2c2c2e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .blur-gradient-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px; 
+            background: var(--blur-panel-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            pointer-events: none;
+            z-index: 90;
+            -webkit-mask-image: linear-gradient(to bottom, black 50%, rgba(0, 0, 0, 0.7) 75%, rgba(0, 0, 0, 0));
+            mask-image: linear-gradient(to bottom, black 50%, rgba(0, 0, 0, 0.7) 75%, rgba(0, 0, 0, 0));
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        body.is-scrolled .blur-gradient-overlay {
+            opacity: 1;
+        }
+
+        .logo-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 40px;
+            padding-left: 20px;
+            padding-right: 20px;
+            z-index: 95;
+        }
+
+        .logo-area {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .logo-area img {
+            width: 100%;
+            height: auto;
+            max-height: 90px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-container {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 20px;
+            background: transparent;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            font-size: 1.15rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links a {
+            color: var(--nav-links-color);
+            text-decoration: none;
+            text-transform: uppercase;
+            padding: 0 10px;
+            transition: opacity 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.6;
+        }
+
+        .separator {
+            color: rgba(128, 128, 128, 0.4);
+            font-weight: 300;
+            user-select: none;
+        }
+
+        .theme-toggle-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            color: var(--icon-color);
+        }
+
+        .theme-toggle-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .sun-icon { display: none; }
+        .moon-icon { display: block; }
+
+        [data-theme="dark"] .sun-icon { display: block; }
+        [data-theme="dark"] .moon-icon { display: none; }
+
+        /* Isolated Devices Grid Container styling */
+        .devices-view {
+            width: 100%;
+            max-width: 1200px;
+            padding: 60px 40px 120px 40px;
+            text-align: center;
+        }
+
+        .devices-view h2 {
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .devices-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-sub);
+            margin-bottom: 60px;
+        }
+
+        .device-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            width: 100%;
+        }
+
+        .device-card {
+            background: transparent;
+            border: 2.5px solid var(--border-line);
+            border-radius: 32px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            min-height: 380px;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .device-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .device-showcase {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .device-build-tag {
+            position: absolute;
+            top: 15px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            font-family: monospace;
+            color: var(--text-sub);
+            letter-spacing: -0.2px;
+            opacity: 0.7;
+        }
+
+        .device-img-placeholder {
+            width: auto;
+            height: 170px;
+            max-width: 100%;
+            object-fit: contain;
+            margin-top: 15px;
+            border: 1px dashed rgba(128, 128, 128, 0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: rgba(128, 128, 128, 0.4);
+            padding: 20px;
+        }
+
+        .device-meta {
+            border-top: 2.5px solid var(--border-line);
+            padding: 22px 15px;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            line-height: 1.4;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        /* Responsive Breakpoints Rules */
+        @media (max-width: 1024px) {
+            .device-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .logo-header { padding-top: 25px; }
+            .logo-area { max-width: 280px; margin-bottom: 15px; }
+            
+            .nav-container { 
+                position: sticky; 
+                top: 0; 
+                padding: 12px 15px; 
+                background: var(--blur-panel-bg);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--border-line);
+            }
+            nav { flex-direction: column; gap: 10px; width: 100%; }
+            .nav-links { 
+                font-size: 0.85rem; 
+                flex-wrap: wrap; 
+                justify-content: center; 
+                gap: 6px 10px; 
+                width: 100%;
+            }
+            .separator { display: none; }
+            
+            .devices-view { padding: 40px 20px; }
+            .devices-view h2 { font-size: 2rem; }
+            .device-grid { grid-template-columns: 1fr; max-width: 320px; margin: 0 auto; gap: 20px; }
+            .device-card { min-height: 360px; }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <div class="blur-gradient-overlay"></div>
+
+    <div class="logo-header">
+        <div class="logo-area">
+            <img src="Logo.png" id="brandLogo" alt="Xiaomi HyperOS Remastered Logo">
+        </div>
+    </div>
+
+    <div class="nav-container">
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <span class="separator">|</span>
+                <li><a href="index.html#features">Features</a></li>
+                <span class="separator">|</span>
+                <li><a href="index.html#swift">Swift</a></li>
+                <span class="separator">|</span>
+                <li><a href="#">Devices</a></li>
+                <span class="separator">|</span>
+                <li><a href="index.html#flash-guide">Flash Guide</a></li>
+                <span class="separator">|</span>
+                <li><a href="#">Contribute</a></li>
+            </ul>
+
+            <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.72" x2="5.64" y2="18.3"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </button>
+        </nav>
+    </div>
+
+    <div class="content-sections">
+        <section class="devices-view">
+            <h2>Supported Devices</h2>
+            <p class="devices-subtitle">Find dedicated builds crafted specifically for your phone variant parameters.</p>
+            
+            <div class="device-grid">
+                <div class="device-card">
+                    <div class="device-showcase">
+                        <span class="device-build-tag">OS3.0.302_SWIFT</span>
+                        <div class="device-img-placeholder">[ Redmi Note 13 Pro Image ]</div>
+                    </div>
+                    <div class="device-meta">
+                        Redmi Note 13 Pro<br>4G / POCO M6 Pro 4G
+                    </div>
+                </div>
+
+                <div class="device-card">
+                    <div class="device-showcase">
+                        <span class="device-build-tag">OS3.0.302_RE/SWIFT</span>
+                        <div class="device-img-placeholder">[ Redmi Note 14 Pro Image ]</div>
+                    </div>
+                    <div class="device-meta">
+                        Redmi Note 14 pro<br>5G / POCO X7
+                    </div>
+                </div>
+
+                <div class="device-card">
+                    <div class="device-showcase">
+                        <span class="device-build-tag">OS3.0.302_STABLE</span>
+                        <div class="device-img-placeholder">[ Device PNG Placeholder ]</div>
+                    </div>
+                    <div class="device-meta">
+                        Coming Soon
+                    </div>
+                </div>
+
+                <div class="device-card">
+                    <div class="device-showcase">
+                        <span class="device-build-tag">OS3.0.302_STABLE</span>
+                        <div class="device-img-placeholder">[ Device PNG Placeholder ]</div>
+                    </div>
+                    <div class="device-meta">
+                        Coming Soon
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const brandLogo = document.getElementById('brandLogo');
+        
+        function applySavedAssets() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                brandLogo.src = "logoDark.png";
+            } else {
+                brandLogo.src = "Logo.png";
+            }
+        }
+        applySavedAssets();
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 145) {
+                document.body.classList.add('is-scrolled');
+            } else {
+                document.body.classList.remove('is-scrolled');
+            }
+        });
+
+        const themeToggleBtn = document.getElementById('themeToggle');
+        themeToggleBtn.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            applySavedAssets();
+        });
+    </script>
+</body>
+</html>
