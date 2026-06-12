@@ -287,7 +287,7 @@
         .features-view {
             width: 100%;
             max-width: 1100px;
-            scroll-margin-top: 70px;
+            scroll-margin-top: 120px; /* Adjusted to account for sticky bar on mobile */
             padding: 80px 24px 40px 24px;
         }
 
@@ -365,7 +365,7 @@
         .swift-view {
             width: 100%;
             max-width: 1100px;
-            scroll-margin-top: 70px;
+            scroll-margin-top: 120px;
             padding: 80px 24px;
         }
 
@@ -401,7 +401,7 @@
         .devices-view {
             width: 100%;
             max-width: 1200px;
-            scroll-margin-top: 70px;
+            scroll-margin-top: 120px;
             padding: 60px 40px 120px 40px;
             text-align: center;
         }
@@ -498,20 +498,27 @@
         @media (max-width: 768px) {
             .logo-header { padding-top: 25px; }
             .logo-area { max-width: 280px; margin-bottom: 15px; }
-            .blur-gradient-overlay { display: none; }
             
-            /* Responsive Navigation Clean-ups */
-            .nav-container { position: relative; padding: 5px 15px; }
-            nav { flex-direction: column; gap: 15px; width: 100%; }
+            /* Responsive Mobile Navigation (Sticky Configuration) */
+            .nav-container { 
+                position: sticky; 
+                top: 0; 
+                padding: 12px 15px; 
+                background: var(--blur-panel-bg);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--card-border);
+            }
+            nav { flex-direction: column; gap: 10px; width: 100%; }
             .nav-links { 
-                font-size: 0.9rem; 
+                font-size: 0.85rem; 
                 flex-wrap: wrap; 
                 justify-content: center; 
-                gap: 8px 12px; 
+                gap: 6px 10px; 
                 width: 100%;
             }
             .nav-links li a { padding: 4px 6px; display: inline-block; }
-            .separator { display: none; } /* Drop the pipe character overlays entirely on mobile */
+            .separator { display: none; }
             
             /* Typography Scaling */
             h1 { font-size: 2.1rem; line-height: 1.2; }
@@ -519,7 +526,7 @@
             .section-header h2 { font-size: 1.75rem; }
             
             /* Layout Collapse Settings */
-            .features-view { padding-top: 40px; }
+            .features-view { padding-top: 20px; }
             .features-container { grid-template-columns: 1fr; gap: 32px; }
             .swift-view { padding: 40px 24px; }
             
@@ -578,7 +585,7 @@
 
             <div class="action-container">
                 <a href="#features" class="btn btn-get-started" style="display: inline-block; text-align: center; line-height: 1.2;">Get Started</a>
-                <button class="btn btn-changelogs" onclick="event.preventDefault()">Changelogs</button>
+                <a href="#features" class="btn btn-changelogs" style="display: inline-block; text-align: center; line-height: 1.2;">Changelogs</a>
             </div>
         </section>
 
